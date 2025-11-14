@@ -1,6 +1,10 @@
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
+# لود کردن فایل .env
+load_dotenv()  # اگر .env در ریشه پروژه باشه
 
 # مسیر پایه پروژه
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,15 +25,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # اپ‌های خودت
-    'apps.accounts.apps.AccountsConfig',
-    'apps.core.apps.CoreConfig',
-    'apps.lottery.apps.LotteryConfig',
-    'apps.payments.apps.PaymentsConfig',
+    'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig',
+    'lottery.apps.LotteryConfig',
+    'payments.apps.PaymentsConfig',
 
     # اپ‌های خارجی
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',  # اگر بخوای API از فرانت دیگه باز باشه
+    # 'corsheaders',  # اگر بخوای API از فرانت دیگه باز باشه
 ]
 
 # Middleware
@@ -126,3 +130,4 @@ SIMPLE_JWT = {
 
 # CORS (در صورت نیاز به اتصال از فرانت)
 CORS_ALLOW_ALL_ORIGINS = True  # فقط در dev, برای prod باید مشخص شود
+AUTH_USER_MODEL = 'accounts.CustomUser'
