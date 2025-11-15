@@ -54,17 +54,16 @@ ROOT_URLCONF = 'quizlottery.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
+        'DIRS': [],  
+        'APP_DIRS': False,  
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'quizlottery.wsgi.application'
 
@@ -99,9 +98,10 @@ USE_TZ = True
 
 # Static و Media
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+# فقط به این نیاز داری (django برای admin panel فایل‌های استاتیک نیاز دارد)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# برای آپلود فایل‌ها
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
