@@ -33,12 +33,14 @@ INSTALLED_APPS = [
     # اپ‌های خارجی
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg',
     # 'corsheaders',  # اگر بخوای API از فرانت دیگه باز باشه
 ]
 
 # Middleware
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # قبل از CommonMiddleware
+    # 'corsheaders.middleware.CorsMiddleware',  # قبل از CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,15 +56,18 @@ ROOT_URLCONF = 'quizlottery.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  
-        'APP_DIRS': False,  
+        'DIRS': [],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
+
 
 
 WSGI_APPLICATION = 'quizlottery.wsgi.application'
