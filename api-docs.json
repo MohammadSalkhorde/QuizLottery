@@ -1,0 +1,218 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "QuizLottery API",
+    "version": "1.0.0",
+    "description": "مستند کامل API مربوط به سیستم ثبت‌نام، ورود، پروفایل و مدیریت حساب"
+  },
+
+  "paths": {
+    "/api/auth/send-code/": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "ارسال کد تأیید برای ثبت‌نام یا ورود",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mobile_number": { "type": "string", "example": "09123456789" }
+                },
+                "required": ["mobile_number"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "کد تأیید ارسال شد"
+          },
+          "400": {
+            "description": "شماره معتبر نیست"
+          }
+        }
+      }
+    },
+
+    "/api/auth/verify-code/": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "تأیید کد فعالسازی و ورود یا ثبت‌نام",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mobile_number": { "type": "string", "example": "09123456789" },
+                  "code": { "type": "string", "example": "12345" }
+                },
+                "required": ["mobile_number", "code"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ورود / ثبت‌نام موفق",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "access": { "type": "string" },
+                    "refresh": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "کد اشتباه است"
+          }
+        }
+      }
+    },
+
+    "/api/auth/logout/": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "خروج کاربر با بلاک کردن توکن رفرش",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh": { "type": "string" }
+                },
+                "required": ["refresh"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "خروج موفق" },
+          "400": { "description": "توکن اشتباه یا منقضی" }
+        }
+      }
+    },
+
+    "/api/auth/profile/": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "دریافت اطلاعات پروفایل کاربر",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "پروفایل کاربر",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": { "description": "توکن ارسال نشده یا نامعتبر" }
+        }
+      },
+
+      "put": {
+        "tags": ["Profile"],
+        "summary": "ویرایش پروفایل کاربر",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "محمد" },
+                  "family": { "type": "string", "example": "سلخوردی" },
+                  "email": { "type": "string", "nullable": true },
+                  "gender": { "type": "string", "example": "True" },
+                  "province": { "type": "string", "nullable": true },
+                  "city": { "type": "string", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "پروفایل با موفقیت ویرایش شد" },
+          "400": { "description": "داده اشتباه" }
+        }
+      }
+    },
+
+    "/api/auth/change-password/send-code/": {
+      "post": {
+        "tags": ["Password"],
+        "summary": "ارسال کد تأیید برای تغییر رمز عبور",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mobile_number": { "type": "string" }
+                },
+                "required": ["mobile_number"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "کد ارسال شد" },
+          "400": { "description": "کاربر یافت نشد" }
+        }
+      }
+    },
+
+    "/api/auth/change-password/verify/": {
+      "post": {
+        "tags": ["Password"],
+        "summary": "تأیید کد و تغییر رمز عبور",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mobile_number": { "type": "string" },
+                  "code": { "type": "string" },
+                  "new_password": { "type": "string" }
+                },
+                "required": ["mobile_number", "code", "new_password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "رمز با موفقیت تغییر کرد" },
+          "400": { "description": "کد اشتباه یا کاربر وجود ندارد" }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
 import random
 
 User = get_user_model()
@@ -31,7 +32,6 @@ class SendCodeSerializer(serializers.Serializer):
 
 
 # ----------------- تایید کد و login/register -----------------
-from rest_framework_simplejwt.tokens import RefreshToken
 
 class VerifyCodeSerializer(serializers.Serializer):
     mobile_number = serializers.CharField(max_length=11)
